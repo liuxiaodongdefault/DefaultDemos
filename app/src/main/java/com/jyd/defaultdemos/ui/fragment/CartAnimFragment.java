@@ -1,13 +1,26 @@
 package com.jyd.defaultdemos.ui.fragment;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 
+import com.jyd.cartllibrary.ShoppingCartAddAnimation;
 import com.jyd.defaultdemos.R;
 import com.jyd.defaultdemos.adapter.ProductRvAdapter;
+import com.jyd.defaultdemos.callback.CartAddListener;
 import com.jyd.defaultdemos.model.ProductModel;
+import com.jyd.defaultdemos.util.MyLog;
 import com.jyd.defaultdemos.util.ThreadUtil;
 
 import java.util.ArrayList;
@@ -45,9 +58,12 @@ public class CartAnimFragment extends BaseFragment {
 
     private PtrClassicFrameLayout mRefresh;
     private RecyclerView mRecylerView;
+    private ImageView fab;
     private ProductRvAdapter mAdapter;
     private List<ProductModel> mProductList;
     private int page = 1;
+    private ShoppingCartAddAnimation cartAddAnimation;
+    private int[] end_location;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -55,6 +71,7 @@ public class CartAnimFragment extends BaseFragment {
 
         mRefresh = getViewById(R.id.refresh_cart_frag);
         mRecylerView = getViewById(R.id.rv_cart_frag);
+        fab = getViewById(R.id.fab);
     }
 
     @Override
@@ -74,6 +91,13 @@ public class CartAnimFragment extends BaseFragment {
                 }, 3000);
             }
         });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "I'm shoppingcart!", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     @Override
@@ -85,14 +109,23 @@ public class CartAnimFragment extends BaseFragment {
         mProductList = new ArrayList<>();
         List<ProductModel> productModelList = initData(page);
         mProductList.addAll(productModelList);
-        for (ProductModel model : mProductList) {
-            Log.d(TAG, model.getTitle());
-        }
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecylerView.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mActivity, 2, LinearLayoutManager.VERTICAL, false);
+        mRecylerView.setLayoutManager(gridLayoutManager);
         mAdapter = new ProductRvAdapter(mActivity, mProductList);
         mRecylerView.setAdapter(mAdapter);
+        mAdapter.setCartAddListener(new CartAddListener() {
+            @Override
+            public void cartAdd(Drawable drawable, int[] start_location) {
+                if (cartAddAnimation == null) {
+                    cartAddAnimation = new ShoppingCartAddAnimation(mActivity);
+                }
+                end_location = new int[2];
+                fab.getLocationInWindow(end_location);
+                cartAddAnimation.doAnim(drawable, start_location, end_location, false);
+                MyLog.d(TAG, "start:  " + start_location[0] + "  " + start_location[1]);
+                MyLog.d(TAG, "end:  " + end_location[0] + "  " + end_location[1]);
+            }
+        });
     }
 
     /**

@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.jyd.defaultdemos">
 
+    <!--网络访问权限-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
     <application
         android:allowBackup="true"
         android:name=".App"

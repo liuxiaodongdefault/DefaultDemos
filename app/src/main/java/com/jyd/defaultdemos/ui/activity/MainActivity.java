@@ -1,6 +1,7 @@
 package com.jyd.defaultdemos.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -28,7 +29,6 @@ import java.text.ParseException;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
-    private FloatingActionButton fab;
     private DrawerLayout drawer ;
     private ActionBarDrawerToggle toggle ;
     private NavigationView navigationView ;
@@ -38,7 +38,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -50,13 +49,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void setListener() {
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         navigationView.setNavigationItemSelectedListener(this);
     }
 

@@ -1,12 +1,9 @@
-package com.jyd.defaultdemos.util;
+package com.jyd.defaultdemos.callback;
 
-import android.content.Context;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
+import android.graphics.drawable.Drawable;
 
 /**
- * Created by dongxiaoliu on 16/7/4.
+ * Created by dongxiaoliu on 16/7/5.
  * * 　　　　　　　　┏┓　　　┏┓
  * 　　　　　　　┏┛┻━━━┛┻┓
  * 　　　　　　　┃　　　　　　　┃
@@ -29,16 +26,6 @@ import com.bumptech.glide.Glide;
  * 　　　　　　　　　　┃┫┫　┃┫┫
  * 　　　　　　　　　　┗┻┛　┗┻┛
  */
-public class ImageDisplayer {
-
-    public ImageDisplayer(Context context) {
-
-    }
-
-    public void displayImage(Context context, String path, ImageView imageView) {
-        Glide.with(context)
-                .load(path)
-                .centerCrop()
-                .into(imageView);
-    }
+public interface CartAddListener {
+    void cartAdd(Drawable drawable, int[] start_location);
 }

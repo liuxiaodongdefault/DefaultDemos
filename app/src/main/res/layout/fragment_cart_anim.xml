@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/refresh_cart_frag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:ptr_duration_to_close="200"
+        app:ptr_duration_to_close_header="1000"
+        app:ptr_keep_header_when_refresh="true"
+        app:ptr_pull_to_fresh="false"
+        app:ptr_ratio_of_header_height_to_refresh="1.2"
+        app:ptr_resistance="1.7">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_cart_frag"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:listSelector="?android:attr/selectableItemBackground">
         </android.support.v7.widget.RecyclerView>
 
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
-</LinearLayout>
+
+    <ImageView
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_shopping_cart_white_24dp" />
+</RelativeLayout>

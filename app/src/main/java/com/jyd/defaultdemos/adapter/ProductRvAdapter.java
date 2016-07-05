@@ -2,13 +2,16 @@ package com.jyd.defaultdemos.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jyd.defaultdemos.R;
+import com.jyd.defaultdemos.callback.CartAddListener;
 import com.jyd.defaultdemos.callback.RvOnItemClickListener;
 import com.jyd.defaultdemos.model.ProductModel;
 import com.jyd.defaultdemos.util.ImageDisplayer;
@@ -41,7 +44,10 @@ import java.util.List;
  */
 public class ProductRvAdapter extends RecyclerView.Adapter<ProductRvAdapter.ViewHolder> {
 
+    private final String TAG = this.getClass().getSimpleName();
+
     private RvOnItemClickListener mOnItemClickListener;
+    private CartAddListener cartAddListener;
     private Context mContext;
     private List<ProductModel> mList;
     private ImageDisplayer displayer;
@@ -49,7 +55,7 @@ public class ProductRvAdapter extends RecyclerView.Adapter<ProductRvAdapter.View
     public ProductRvAdapter(Context context, List<ProductModel> modelList) {
         this.mContext = context;
         this.mList = modelList;
-        displayer = new ImageDisplayer();
+        displayer = new ImageDisplayer(context);
     }
 
     @Override
@@ -71,7 +77,10 @@ public class ProductRvAdapter extends RecyclerView.Adapter<ProductRvAdapter.View
         holder.cartAddIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int start_location[] = new int[2];
+                holder.productIv.getLocationInWindow(start_location);
+                cartAddListener.cartAdd(holder.productIv.getDrawable(),
+                        start_location);
             }
         });
         if (mOnItemClickListener != null) {
@@ -95,11 +104,15 @@ public class ProductRvAdapter extends RecyclerView.Adapter<ProductRvAdapter.View
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mList.size();
     }
 
     public void setOnItemClickListener(RvOnItemClickListener listener) {
         this.mOnItemClickListener = listener;
+    }
+
+    public void setCartAddListener(CartAddListener cartAddListener) {
+        this.cartAddListener = cartAddListener;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -112,4 +125,5 @@ public class ProductRvAdapter extends RecyclerView.Adapter<ProductRvAdapter.View
         }
 
     }
+
 }

@@ -1,8 +1,14 @@
 package com.jyd.defaultdemos.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +21,7 @@ import android.view.MenuItem;
 
 import com.jyd.defaultdemos.R;
 import com.jyd.defaultdemos.ui.activity.BaseActivity;
+import com.jyd.defaultdemos.ui.fragment.CartAnimFragment;
 
 import java.text.ParseException;
 
@@ -25,6 +32,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private DrawerLayout drawer ;
     private ActionBarDrawerToggle toggle ;
     private NavigationView navigationView ;
+    private ViewPager viewPager;
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_main);
@@ -37,23 +45,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        viewPager = getViewById(R.id.viewpager_main);
     }
 
     @Override
     protected void setListener() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) throws ParseException {
-
+        setViewPager();
     }
 
     @Override
@@ -94,13 +103,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_cart_anim) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+            viewPager.setCurrentItem(0);
 
         } else if (id == R.id.nav_share) {
 
@@ -110,5 +115,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setViewPager() {
+        viewPager.setAdapter(new MainPagerAdapter(this, getSupportFragmentManager()) );
+    }
+
+    class MainPagerAdapter extends FragmentPagerAdapter{
+
+        private Context mContext;
+        private Class[] fragments = new Class[] {CartAnimFragment.class};
+
+        public MainPagerAdapter(Context context, FragmentManager fm) {
+            super(fm);
+            this.mContext = context;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return Fragment.instantiate(mContext, fragments[position].getName());
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.length;
+        }
     }
 }

@@ -7,4 +7,8 @@
     <color name="white">#FFFFFF</color>
     <!-- 半透明黑色 -->
     <color name="half_black">#aa000000</color>
+
+    <color name="gray_bg">#F8F8F8</color>
+    <color name="gray_line">#22000000</color>
+    <color name="red_common">#F8242E</color>
 </resources>

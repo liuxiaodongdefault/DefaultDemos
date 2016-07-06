@@ -1,5 +1,6 @@
 package com.jyd.defaultdemos.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import com.jyd.defaultdemos.R;
 import com.jyd.defaultdemos.adapter.ProductRvAdapter;
 import com.jyd.defaultdemos.callback.CartAddListener;
 import com.jyd.defaultdemos.model.ProductModel;
+import com.jyd.defaultdemos.ui.activity.BaseActivity;
+import com.jyd.defaultdemos.ui.activity.MainActivity;
 import com.jyd.defaultdemos.util.MyLog;
 import com.jyd.defaultdemos.util.ThreadUtil;
 
@@ -58,12 +61,18 @@ public class CartAnimFragment extends BaseFragment {
 
     private PtrClassicFrameLayout mRefresh;
     private RecyclerView mRecylerView;
-    private ImageView fab;
     private ProductRvAdapter mAdapter;
     private List<ProductModel> mProductList;
     private int page = 1;
     private ShoppingCartAddAnimation cartAddAnimation;
     private int[] end_location;
+    private MainActivity mainActivity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mainActivity = (MainActivity) activity;
+    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -71,7 +80,6 @@ public class CartAnimFragment extends BaseFragment {
 
         mRefresh = getViewById(R.id.refresh_cart_frag);
         mRecylerView = getViewById(R.id.rv_cart_frag);
-        fab = getViewById(R.id.fab);
     }
 
     @Override
@@ -89,13 +97,6 @@ public class CartAnimFragment extends BaseFragment {
                         mRefresh.refreshComplete();
                     }
                 }, 3000);
-            }
-        });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "I'm shoppingcart!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
     }
@@ -120,7 +121,7 @@ public class CartAnimFragment extends BaseFragment {
                     cartAddAnimation = new ShoppingCartAddAnimation(mActivity);
                 }
                 end_location = new int[2];
-                fab.getLocationInWindow(end_location);
+                mainActivity.fab.getLocationInWindow(end_location);
                 cartAddAnimation.doAnim(drawable, start_location, end_location, false);
                 MyLog.d(TAG, "start:  " + start_location[0] + "  " + start_location[1]);
                 MyLog.d(TAG, "end:  " + end_location[0] + "  " + end_location[1]);

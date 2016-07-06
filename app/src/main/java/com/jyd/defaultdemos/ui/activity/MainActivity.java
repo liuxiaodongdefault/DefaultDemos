@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private DrawerLayout drawer ;
     private ActionBarDrawerToggle toggle ;
     private NavigationView navigationView ;
+    public FloatingActionButton fab;
     private ViewPager viewPager;
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -44,12 +45,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         drawer.setDrawerListener(toggle);
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        fab = getViewById(R.id.fab);
         viewPager = getViewById(R.id.viewpager_main);
     }
 
     @Override
     protected void setListener() {
         navigationView.setNavigationItemSelectedListener(this);
+        fab.setOnClickListener(this);
     }
 
     @Override

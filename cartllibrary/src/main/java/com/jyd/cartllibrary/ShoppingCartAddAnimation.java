@@ -35,6 +35,7 @@ public class ShoppingCartAddAnimation {
     private TranslateAnimation horizontalTransAnim;
     private TranslateAnimation downTransAnim;
     private TranslateAnimation upTransAnim;
+    private Animation mScaleAnimation;
 
     private Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -140,11 +141,6 @@ public class ShoppingCartAddAnimation {
      */
     private void setAnim(Drawable drawable, int[] start_location, int[] end_location, Boolean isDownToUp) {
 
-        Animation mScaleAnimation = new ScaleAnimation(1.2f, 0.0f, 1.2f, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f);
-        mScaleAnimation.setDuration(AnimationDuration);
-        mScaleAnimation.setFillAfter(true);
         Animation mRotateAnimation = new RotateAnimation(0, 900,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                 0.5f);
@@ -152,7 +148,6 @@ public class ShoppingCartAddAnimation {
         AnimationSet mAnimationSet = new AnimationSet(true);
         mAnimationSet.setFillAfter(true);
         mAnimationSet.addAnimation(mRotateAnimation);
-        mAnimationSet.addAnimation(mScaleAnimation);
 
         final ImageView iview = new ImageView(activity);
         iview.setImageDrawable(drawable);
@@ -169,6 +164,9 @@ public class ShoppingCartAddAnimation {
         if (isDownToUp) {
             downTransAnim = new TranslateAnimation(0, 0, 0, endY - 200);
             downTransAnim.setDuration(800);
+            mScaleAnimation = new ScaleAnimation(1.2f, 0.0f, 1.2f, 0.0f,
+                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                    0.5f);
         } else {
             upTransAnim = new TranslateAnimation(0, 0, 0, -200);
             downTransAnim = new TranslateAnimation(0, 0, 0, endY + 200);
@@ -176,7 +174,13 @@ public class ShoppingCartAddAnimation {
             downTransAnim.setDuration(800);
             downTransAnim.setStartOffset(200);
             mAnimationSet.addAnimation(upTransAnim);
+            mScaleAnimation = new ScaleAnimation(1.2f, 0.0f, 1.2f, 0.0f,
+                    Animation.RELATIVE_TO_SELF, 0.3f, Animation.RELATIVE_TO_SELF,
+                    0.3f);
         }
+        mScaleAnimation.setDuration(AnimationDuration);
+        mScaleAnimation.setFillAfter(true);
+        mAnimationSet.addAnimation(mScaleAnimation);
         mAnimationSet.addAnimation(horizontalTransAnim);
         mAnimationSet.addAnimation(downTransAnim);
         mAnimationSet.setAnimationListener(new Animation.AnimationListener() {

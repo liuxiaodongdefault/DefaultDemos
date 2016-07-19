@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import com.jyd.defaultdemos.R;
 import com.jyd.defaultdemos.ui.activity.BaseActivity;
 import com.jyd.defaultdemos.ui.fragment.CartAnimFragment;
+import com.jyd.defaultdemos.ui.fragment.LoadMoreTestFragment;
+import com.jyd.defaultdemos.ui.fragment.ViewTestFragment;
 
 import java.text.ParseException;
 
@@ -103,9 +105,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             viewPager.setCurrentItem(0);
 
         } else if (id == R.id.nav_share) {
-
+            viewPager.setCurrentItem(1);
         } else if (id == R.id.nav_send) {
-
+            viewPager.setCurrentItem(2);
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -119,7 +121,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     class MainPagerAdapter extends FragmentPagerAdapter{
 
         private Context mContext;
-        private Class[] fragments = new Class[] {CartAnimFragment.class};
+        private Class[] fragments = new Class[] {CartAnimFragment.class, ViewTestFragment.class, LoadMoreTestFragment.class};
 
         public MainPagerAdapter(Context context, FragmentManager fm) {
             super(fm);
